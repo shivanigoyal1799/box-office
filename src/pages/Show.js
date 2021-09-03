@@ -35,6 +35,7 @@ const Show = () => {
     initialState
   );
 
+  // these states are not needed as we are using useReducer
   // const [show, setShow] = useState(null);
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState(null);
@@ -61,7 +62,7 @@ const Show = () => {
     };
   }, [id]);
 
-  console.log('show', show);
+  // console.log('show', show);
   if (isLoading) {
     return <div>Data is loading</div>;
   }
