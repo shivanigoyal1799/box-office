@@ -2,7 +2,7 @@ import React from 'react';
 import { StyledActorCard } from './ActorCard.Styled';
 
 const ActorCard = ({ image, name, gender, country, birthday, deathday }) => {
-  console.log(country)
+  
   return (
     <StyledActorCard>
       <div className="img-wrapper">
