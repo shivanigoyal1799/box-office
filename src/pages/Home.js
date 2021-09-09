@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useCallback } from 'react';
 import ActorGrid from '../components/Actor/ActorGrid';
 import MainPageLayout from '../components/MainPageLayout';
 import ShowGrid from '../components/Show/ShowGrid';
@@ -11,15 +11,29 @@ import {
   SearchButtonWrapper,
 } from './Home.styled';
 
+const renderResults = (result) => {
+  if (result && result.length === 0) {
+    return <div>No result</div>;
+  }
+  if (result && result.length > 0) {
+    return result[0].show ? (
+      <ShowGrid result={result} />
+    ) : (
+      <ActorGrid result={result} />
+    );
+  }
+  return null;
+};
+
 const Home = () => {
   const [input, setInput] = useLastQuery();
   const [result, setResult] = useState(null);
   const [searchOption, setSearchOption] = useState('shows');
   const isShowSearch = searchOption === 'shows';
 
-  const onChangeInput = ev => {
+  const onChangeInput = useCallback(ev => {
     setInput(ev.target.value);
-  };
+  },[setInput])
 
   const onSearch = () => {
     // fetch(`https://api.tvmaze.com/search/shows?q=${input}`)
@@ -38,23 +52,10 @@ const Home = () => {
     if (ev.keyCode === 13) onSearch();
   };
 
-  const renderResults = () => {
-    if (result && result.length === 0) {
-      return <div>No result</div>;
-    }
-    if (result && result.length > 0) {
-      return result[0].show ? (
-        <ShowGrid result={result} />
-      ) : (
-        <ActorGrid result={result} />
-      );
-    }
-    return null;
-  };
 
-  const onRadioChange = ev => {
+  const onRadioChange = useCallback(ev => {
     setSearchOption(ev.target.value);
-  };
+  },[])
 
   return (
     <MainPageLayout>
@@ -117,7 +118,7 @@ const Home = () => {
           Search
         </button>
       </SearchButtonWrapper>
-      {renderResults()}
+      {renderResults(result)}
     </MainPageLayout>
   );
 };
